@@ -58,8 +58,8 @@ public class DriveTrain extends SubsystemBase{
 
     public void Drive(double speed, double rotation){
         diffDrive.arcadeDrive(speed, rotation);
-        leftVoltage = (speed + rotation) * 6;
-        rightVoltage = (speed - rotation) * 6;
+        leftVoltage = (speed - rotation) * 5;
+        rightVoltage = (speed + rotation) * 5;
 
     }
 
@@ -72,14 +72,13 @@ public class DriveTrain extends SubsystemBase{
 
     @Override
     public void periodic(){
-        field2d.setRobotPose(diffDriveSim.getPose());
     } 
 
     @Override
     public void simulationPeriodic(){
         diffDriveSim.setInputs(
-            leftVoltage,
-            rightVoltage
+            - leftVoltage,
+            - rightVoltage
         );
 
         diffDriveSim.update(0.02);

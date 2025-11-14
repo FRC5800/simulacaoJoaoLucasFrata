@@ -26,10 +26,7 @@ public class RobotContainer {
   
   private void configureBindings(Joystick controller) {
       driveTrain.setDefaultCommand(new CommandDrive(driveTrain,controller));
-
-
      }
-
   
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
