@@ -16,45 +16,52 @@ import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Elevador extends SubsystemBase {
 
+    
     public PIDController pidElevador = new PIDController(Constants.ConstantsElevador.kp, Constants.ConstantsElevador.ki,
-            Constants.ConstantsElevador.kd);
-
+    Constants.ConstantsElevador.kd);
+    
     private RelativeEncoder masterEncoder;
     private RelativeEncoder slaveEncoder;
-
+    
     private SparkMax motorMaster = new SparkMax(Constants.ConstantsElevador.Master_ID_Elevador, MotorType.kBrushless);
     private SparkMax motorSlave = new SparkMax(Constants.ConstantsElevador.Slave_ID_Elevador, MotorType.kBrushless);
-
+    
     private final Mechanism2d mechanism2d = new Mechanism2d(90, 90);
     private final MechanismRoot2d root = mechanism2d.getRoot("Base", 45, 5);
-    private final MechanismLigament2d parte1 = new MechanismLigament2d("Parte 1", 30, 90);
-    private final MechanismLigament2d parte2 = new MechanismLigament2d("Parte 2", 15, 15);
-
+    private final MechanismLigament2d parte1 = new MechanismLigament2d("Parte 1", 50, 90);
+    private final MechanismLigament2d parte2 = new MechanismLigament2d("Parte 2", 20, 0);
+    
     private double tensao = 0;
-
+    
     private static final double GEAR_RATIO = 2.25;
     private static final double MASS_KG = 5;
     private static final double DRUM_RADIUS_M = 0.03;
     private static final double MIN_HEIGHT_M = 0.0;
-    private static final double MAX_HEIGHT_M = 2;
-
+    private static final double MAX_HEIGHT_M = 5;
+    
     private final ElevatorSim elevadorSim = new ElevatorSim(
-            DCMotor.getNEO(2),
-            GEAR_RATIO,
-            MASS_KG,
-            DRUM_RADIUS_M,
-            MIN_HEIGHT_M,
-            MAX_HEIGHT_M,
-            true,
-            0.0);
-
-    public Elevador() {
-
+        DCMotor.getNEO(2),
+        GEAR_RATIO,
+        MASS_KG,
+        DRUM_RADIUS_M,
+        MIN_HEIGHT_M,
+        MAX_HEIGHT_M,
+        true,
+        0.0);
+        
+        public Elevador() {
+    
+        parte1.setColor(new Color8Bit(0,0,255));
+        parte2.setColor(new Color8Bit(255, 0, 0));  
+        parte1.setLineWeight(10);
+        parte2.setLineWeight(7);
+            
         pidElevador.setTolerance(Constants.ConstantsElevador.pidTolerencia);
 
         root.append(parte1);
@@ -84,10 +91,10 @@ public class Elevador extends SubsystemBase {
     }
 
     public void runPID(double target) {
-        //pidElevador.setSetpoint(target);
-        //double speed = MathUtil.clamp(pidElevador.calculate(getHeight()), -0.1, 0.3);
-        //run(speed);
-        run(0.5);
+        pidElevador.setSetpoint(target);
+        double speed = MathUtil.clamp(pidElevador.calculate(getHeight()), -0.1, 0.3);
+        run(speed);
+        //run(0.5);
     }
 
     public void run(double speed) {
@@ -135,7 +142,7 @@ public class Elevador extends SubsystemBase {
 
     @Override
     public void simulationPeriodic() {
-        elevadorSim.setInput(tensao);
+        elevadorSim.setInput(tensao * 2);
         elevadorSim.update(0.02);
 
         double posSimMetros = elevadorSim.getPositionMeters();
@@ -144,7 +151,7 @@ public class Elevador extends SubsystemBase {
         masterEncoder.setPosition(posSimTicks); 
         slaveEncoder.setPosition(0);
 
-        parte1.setLength(posSimMetros * 10);
+        parte1.setLength(posSimMetros * 15);
 
         SmartDashboard.putNumber("Tensão Elevador Simulado", tensao);
         SmartDashboard.putNumber("Posicao Elevador Sim", posSimMetros);

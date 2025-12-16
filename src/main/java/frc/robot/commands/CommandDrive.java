@@ -18,7 +18,7 @@ public class CommandDrive extends Command{
     }
 
     public void execute(){
-        driveTrain.Drive(controller.getY(), controller.getX());
+        driveTrain.Drive(controller.getY() * 0.7, controller.getZ() *0.7);
     }
     
     public void end(boolean interrupted){
