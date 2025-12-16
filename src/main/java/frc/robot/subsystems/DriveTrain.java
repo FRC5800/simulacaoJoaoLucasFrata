@@ -9,20 +9,17 @@ import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class DriveTrain extends SubsystemBase{
 
     private Field2d field2d = new Field2d();
     
-    public static final int kLeftMaster = 1;
-    public static final int kRightMaster = 2;
-    public static final int kLeftSlave = 3;
-    public static final int kRightSlave = 4;
     
-    private final WPI_TalonSRX leftMaster = new WPI_TalonSRX(kLeftMaster);
-    private final WPI_TalonSRX leftSlave = new WPI_TalonSRX(kLeftSlave);
-    private final WPI_TalonSRX rightMaster = new WPI_TalonSRX(kRightMaster);
-    private final WPI_TalonSRX rightSlave = new WPI_TalonSRX(kRightSlave);
+    private final WPI_TalonSRX leftMaster = new WPI_TalonSRX(Constants.ConstantsDriveTrain.kLeftMaster);
+    private final WPI_TalonSRX leftSlave = new WPI_TalonSRX(Constants.ConstantsDriveTrain.kLeftSlave);
+    private final WPI_TalonSRX rightMaster = new WPI_TalonSRX(Constants.ConstantsDriveTrain.kRightMaster);
+    private final WPI_TalonSRX rightSlave = new WPI_TalonSRX(Constants.ConstantsDriveTrain.kRightSlave);
     
 
 
