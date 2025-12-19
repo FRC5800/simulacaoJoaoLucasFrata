@@ -32,10 +32,10 @@ public class Elevador extends SubsystemBase {
     private SparkMax motorMaster = new SparkMax(Constants.ConstantsElevador.Master_ID_Elevador, MotorType.kBrushless);
     private SparkMax motorSlave = new SparkMax(Constants.ConstantsElevador.Slave_ID_Elevador, MotorType.kBrushless);
     
-    private final Mechanism2d mechanism2d = new Mechanism2d(90, 90);
-    private final MechanismRoot2d root = mechanism2d.getRoot("Base", 45, 5);
-    private final MechanismLigament2d parte1 = new MechanismLigament2d("Parte 1", 50, 90);
-    private final MechanismLigament2d parte2 = new MechanismLigament2d("Parte 2", 20, 0);
+    private final Mechanism2d mechanism2d = new Mechanism2d(5, 5);
+    private final MechanismRoot2d root = mechanism2d.getRoot("Base", 2.5, 0.5);
+    private final MechanismLigament2d parte1 = new MechanismLigament2d("Parte 1", 1, 90);
+    private final MechanismLigament2d parte2 = new MechanismLigament2d("Parte 2", 0.5, 0);
     
     private double tensao = 0;
     
@@ -43,7 +43,7 @@ public class Elevador extends SubsystemBase {
     private static final double MASS_KG = 5;
     private static final double DRUM_RADIUS_M = 0.03;
     private static final double MIN_HEIGHT_M = 0.0;
-    private static final double MAX_HEIGHT_M = 5;
+    private static final double MAX_HEIGHT_M = 3.5;
     
     private final ElevatorSim elevadorSim = new ElevatorSim(
         DCMotor.getNEO(2),
@@ -151,7 +151,7 @@ public class Elevador extends SubsystemBase {
         masterEncoder.setPosition(posSimTicks); 
         slaveEncoder.setPosition(0);
 
-        parte1.setLength(posSimMetros * 15);
+        parte1.setLength(posSimMetros);
 
         SmartDashboard.putNumber("Tensão Elevador Simulado", tensao);
         SmartDashboard.putNumber("Posicao Elevador Sim", posSimMetros);

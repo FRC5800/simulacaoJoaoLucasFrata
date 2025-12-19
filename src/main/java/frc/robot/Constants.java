@@ -12,7 +12,7 @@ public final class Constants {
         public static int Slave_ID_Elevador = 7;
     
         public static double voltage_Elevator = 0;
-        public static double kp = 0.05;
+        public static double kp = 0.6;
         public static double ki = 0.0;
         public static double kd = 0.0;
         public static double pidTolerencia = 0.5;

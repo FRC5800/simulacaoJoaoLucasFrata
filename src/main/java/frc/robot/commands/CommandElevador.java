@@ -26,14 +26,15 @@ public class CommandElevador extends Command {
   public void execute() {
     if (RobotBase.isSimulation()) {
       if (controller.getPOV() == 0) {
-        target = 5;
+        target = 1;
       } else if (controller.getPOV() == 180) {
         target = 0;
       } else if (controller.getPOV() == 90) {
-        target = 3.5;
+        target = 0.6;
       } else if (controller.getPOV() == 270) {
-        target = 1.5;
+        target = 0.3;
       }
+      SmartDashboard.putNumber("Altura", target);
 
     }
     // else{
@@ -51,11 +52,7 @@ public class CommandElevador extends Command {
     // }
 
     SmartDashboard.putBoolean("Estado PID", elevador.atSetPoint());
-    if (target == 0 && elevador.atSetPoint()) {
-      elevador.run(0);
-    } else {
-      elevador.runPID(target);
-    }
+    elevador.runPID(target);
   }
 
   @Override
